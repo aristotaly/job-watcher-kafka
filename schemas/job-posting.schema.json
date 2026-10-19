@@ -1,0 +1,20 @@
+{
+"$schema": "https://json-schema.org/draft/2020-12/schema",
+"title":"Job Posting",
+"type":"object",
+"properties": {
+
+    "id": {"type":"string","description": "SHA-256 hash of the posting url, used for dedup"},
+    "source":{"type":"string","description": "name of the feed the job came from"},
+    "url":{"type":"string","format": "uri","description": "direct link to the posting itself"},
+    "title":{"type":"string","description": "job title"},
+    "company":{"type":"string","description": "company name"},
+    "location":{"type":"string","description": "location as stated in the posting (usually the city), may be missing"},
+    "description":{"type":"string","description": "full text of the job description"},
+    "fetched_at":{"type":"string","format": "date-time","description": "time of job posting retrieval UTC, ISO 8601"}
+},
+"required": ["id","source","url","title","company","fetched_at"],
+"additionalProperties": false
+
+
+}
