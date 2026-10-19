@@ -1,0 +1,125 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://aps.example.com/schemas/job-posting.schema.json",
+  "title": "Job Posting",
+  "description": "Schema for a job posting collected from various job boards and company career pages",
+  "type": "object",
+  "required": [
+    "id",
+    "source",
+    "url",
+    "title",
+    "company",
+    "location",
+    "description",
+    "fetched_at"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the job posting (UUID or source-specific ID)",
+      "pattern": "^[a-zA-Z0-9_-]+$",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "source": {
+      "type": "string",
+      "description": "Name of the job board or source where the posting was found",
+      "enum": [
+        "linkedin",
+        "indeed",
+        "glassdoor",
+        "monster",
+        "ziprecruiter",
+        "careerbuilder",
+        "company_career_page",
+        "other"
+      ],
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "url": {
+      "type": "string",
+      "description": "Direct URL to the job posting",
+      "format": "uri",
+      "minLength": 1,
+      "maxLength": 2048
+    },
+    "title": {
+      "type": "string",
+      "description": "Job title as listed in the posting",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "company": {
+      "type": "string",
+      "description": "Company name hiring for the position",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "location": {
+      "type": "object",
+      "description": "Job location details",
+      "required": ["raw"],
+      "properties": {
+        "raw": {
+          "type": "string",
+          "description": "Raw location string as displayed in the posting (e.g., 'San Francisco, CA', 'Remote', 'New York, NY (Hybrid)')",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "city": {
+          "type": "string",
+          "description": "Parsed city name",
+          "maxLength": 128
+        },
+        "state": {
+          "type": "string",
+          "description": "Parsed state/province code (e.g., 'CA', 'NY')",
+          "maxLength": 64
+        },
+        "country": {
+          "type": "string",
+          "description": "Parsed country code (ISO 3166-1 alpha-2)",
+          "pattern": "^[A-Z]{2}$",
+          "maxLength": 2
+        },
+        "remote": {
+          "type": "boolean",
+          "description": "Whether the position is fully remote",
+          "default": false
+        },
+        "hybrid": {
+          "type": "boolean",
+          "description": "Whether the position is hybrid (partially remote)",
+          "default": false
+        },
+        "latitude": {
+          "type": "number",
+          "description": "Latitude coordinate for mapping",
+          "minimum": -90,
+          "maximum": 90
+        },
+        "longitude": {
+          "type": "number",
+          "description": "Longitude coordinate for mapping",
+          "minimum": -180,
+          "maximum": 180
+        }
+      },
+      "additionalProperties": false
+    },
+    "description": {
+      "type": "string",
+      "description": "Full job description text (HTML or plain text)",
+      "minLength": 1,
+      "maxLength": 100000
+    },
+    "fetched_at": {
+      "type": "string",
+      "description": "Timestamp when the job posting was fetched (ISO 8601 format, UTC)",
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false
+}
